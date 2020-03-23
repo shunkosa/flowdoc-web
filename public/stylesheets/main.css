@@ -1,0 +1,42 @@
+html.home {
+  background-color: #FFFFFF !important;
+}
+
+.container h1 {
+  font-size: 3rem;
+  font-weight: 300;
+  color: rgb(84, 105, 141);
+}
+
+header,
+main,
+footer {
+  text-align: center;
+}
+
+header,
+.buttons {
+  padding: 3rem;
+}
+
+footer {
+  padding: 1rem;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+footer {
+  margin-top: auto;
+}
+
+.media {
+  padding: 1rem;
+}
+
+.media img {
+  max-width: 250px;
+}
