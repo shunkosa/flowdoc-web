@@ -1,13 +1,31 @@
-# Node build artifacts
-node_modules
-npm-debug.log
+# Log files
+logs
+*.log
+*-debug.log
+*-error.log
 
-# Local development
-*.env
-.env
-*.dev
+# Standard lib folder
+/lib
+
+# Standard dist folder
+/dist
+
+# Tooling files
+node_modules
+
+# Temp directory
+/tmp
+
+# Jest coverage folder
+/coverage
+
+# MacOS system files
 .DS_Store
 
-# Docker
-Dockerfile
-docker-compose.yml
+# Windows system files
+Thumbs.db
+ehthumbs.db
+[Dd]esktop.ini
+$RECYCLE.BIN/
+
+.env

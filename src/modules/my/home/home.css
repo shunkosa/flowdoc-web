@@ -1,0 +1,7 @@
+.container {
+  min-height: 100vh;
+}
+
+.media img {
+  max-width: 250px;
+}

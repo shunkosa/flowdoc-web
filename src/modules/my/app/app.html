@@ -1,0 +1,8 @@
+<template>
+    <template if:false={showsList}>
+        <my-home></my-home>
+    </template>
+    <template if:true={showsList}>
+        <my-list></my-list>
+    </template>
+</template>

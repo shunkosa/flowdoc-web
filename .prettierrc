@@ -1,0 +1,12 @@
+{
+    "printWidth": 120,
+    "trailingComma": "none",
+    "singleQuote": true,
+    "tabWidth": 4,
+    "overrides": [
+        {
+            "files": "**/*.html",
+            "options": { "parser": "lwc" }
+        }
+    ]
+}
