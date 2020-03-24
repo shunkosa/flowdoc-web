@@ -38,18 +38,22 @@ express()
       res.redirect(req.baseUrl + '/flows');
     });
   })
-  .get('/flows', (req, res, next) => {
+  .get('/flows', (req, res) => { 
+    if(!conn || !conn.accessToken) {
+      res.redirect(req.baseUrl + '../');
+    }
+    res.render('pages/flows');
+  })
+  .get('/api/flows', (req, res, next) => {
     (async () => {
       if(!conn || !conn.accessToken) {
-        res.redirect(req.baseUrl + '../');
+        res.json({ message: "token_expired"});
       }
       const flowList = await getFlows(conn);
-      const count = flowList.filter(f => f.detail.processType === 'Workflow').length;
-      res.render('pages/flows', { flowList : flowList, count: count });
-    })().catch(next);
+      res.json(flowList);
+    })().catch(next); 
   })
   .listen(PORT, () => console.log(`Listening on ${ PORT }`))
-
 
 getFlows = async (conn) => {
   const types = [{type: 'Flow'}];
