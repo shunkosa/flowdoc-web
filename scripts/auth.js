@@ -5,6 +5,7 @@ const jsforce = require('jsforce');
 require('dotenv').config();
 
 let oauth2;
+let conn;
 
 const oauth2options = {
     clientId: process.env.CLIENT_ID,
@@ -21,17 +22,26 @@ router.get('/', (req, res) => {
             ...oauth2options
         });
     }
-    res.redirect(oauth2.getAuthorizationUrl({ scope: 'api refresh_token' }));
+    res.redirect(`${oauth2.getAuthorizationUrl({ scope: 'api refresh_token' })}&prompt=login%20consent`);
 });
 
 router.get('/callback', (req, res, next) => {
     (async () => {
-        const conn = new jsforce.Connection({ oauth2: oauth2, version: '48.0' });
+        conn = new jsforce.Connection({ oauth2: oauth2, version: '48.0' });
         const code = req.param('code');
         await conn.authorize(code);
         res.cookie('access_token', conn.accessToken);
         res.cookie('instance_url', conn.instanceUrl);
         res.redirect('/flows');
+    })().catch(next);
+});
+
+router.get('/logout', (req, res, next) => {
+    (async () => {
+        if (conn.accessToken) {
+            conn.logoutByOAuth2();
+        }
+        res.redirect('/');
     })().catch(next);
 });
 

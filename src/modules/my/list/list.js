@@ -56,6 +56,12 @@ export default class List extends LightningElement {
             });
     }
 
+    logout() {
+        this.deleteCookie('instance_url');
+        this.deleteCookie('access_token');
+        window.location.href = '../auth/logout';
+    }
+
     getCookie(name) {
         var value = '; ' + document.cookie;
         var parts = value.split('; ' + name + '=');
@@ -63,6 +69,10 @@ export default class List extends LightningElement {
             return parts.pop().split(';').shift();
         }
         return undefined;
+    }
+
+    deleteCookie(name) {
+        document.cookie = `${name}=; max-age=0`;
     }
 
     chunk([...array], size = 1) {
