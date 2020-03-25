@@ -30,62 +30,70 @@
             </div>
         </div>
     </div>
-    <template if:true={flowList}>
-        <div class="slds-scrollable slds-grow slds-var-m-horizontal_medium slds-var-m-bottom_medium">
-            <div class="slds-scrollable_none">
-                <table
-                    aria-multiselectable="true"
-                    class="slds-table slds-no-row-hover slds-table_bordered slds-table_fixed-layout"
-                    role="grid"
-                >
-                    <thead>
-                        <tr class="slds-line-height_reset">
-                            <th class="" scope="col" style="width: 4rem; height: 2rem;">
-                                <div class="slds-truncate slds-assistive-text">Buttons</div>
-                            </th>
-                            <th class="" scope="col">
-                                <div class="slds-truncate">Name</div>
-                            </th>
-                            <th class="" scope="col">
-                                <div class="slds-truncate">API Name</div>
-                            </th>
-                            <th class="" scope="col">
-                                <div class="slds-truncate">Last Modified Date</div>
-                            </th>
-                            <th class="" scope="col">
-                                <div class="slds-truncate">Last Modified By</div>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <template for:each={flowList} for:item="flow">
-                            <tr aria-selected="false" class="slds-hint-parent" key={flow.fullName}>
-                                <td class="slds-text-align_right" role="gridcell" tabindex="0">
-                                    <template if:true={flow.isSupported}>
-                                        <label class="slds-checkbox-button">
-                                            <input class="slds-assistive-text" type="checkbox" tabindex="-1" />
-                                            <span
-                                                class="slds-icon_container slds-icon-utility-download slds-current-color"
-                                            >
-                                                <svg class="slds-icon slds-icon_x-small" aria-hidden="true">
-                                                    <use xlink:href="utility-symbols.svg#download"></use>
-                                                </svg>
-                                                <span class="slds-assistive-text">Download PDF</span>
-                                            </span>
-                                        </label>
-                                    </template>
-                                </td>
-                                <th scope="row">
-                                    <div class="slds-truncate" style="line-height: 2rem;">{flow.detail.label}</div>
-                                </th>
-                                <td role="gridcell"><div class="slds-truncate">{flow.fullName}</div></td>
-                                <td role="gridcell">{flow.formattedLastModifiedDate}</td>
-                                <td role="gridcell">{flow.lastModifiedByName}</td>
-                            </tr>
-                        </template>
-                    </tbody>
-                </table>
+    <template if:true={hasFlowList}>
+        <article class="slds-card slds-var-m-horizontal_medium slds-var-m-bottom_medium">
+            <div class="slds-card__bod">
+                <div class="slds-scrollable slds-grow">
+                    <div class="slds-scrollable_none">
+                        <table
+                            aria-multiselectable="true"
+                            class="slds-table slds-no-row-hover slds-table_bordered slds-table_fixed-layout"
+                            role="grid"
+                        >
+                            <thead>
+                                <tr class="slds-line-height_reset">
+                                    <th class="" scope="col" style="width: 4rem; height: 2rem;">
+                                        <div class="slds-truncate slds-assistive-text">Buttons</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate">Name</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate">API Name</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate">Last Modified Date</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate">Last Modified By</div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={flowList} for:item="flow">
+                                    <tr aria-selected="false" class="slds-hint-parent" key={flow.fullName}>
+                                        <td class="slds-text-align_right" role="gridcell" tabindex="0">
+                                            <template if:true={flow.isSupported}>
+                                                <label class="slds-checkbox-button">
+                                                    <input class="slds-assistive-text" type="checkbox" tabindex="-1" />
+                                                    <span
+                                                        class="slds-icon_container slds-icon-utility-download slds-current-color"
+                                                    >
+                                                        <svg class="slds-icon slds-icon_x-small" aria-hidden="true">
+                                                            <use
+                                                                xlink:href="assets/slds/icons/utility-sprite/svg/symbols.svg#download"
+                                                            ></use>
+                                                        </svg>
+                                                        <span class="slds-assistive-text">Download PDF</span>
+                                                    </span>
+                                                </label>
+                                            </template>
+                                        </td>
+                                        <th scope="row">
+                                            <div class="slds-truncate" style="line-height: 2rem;">
+                                                {flow.detail.label}
+                                            </div>
+                                        </th>
+                                        <td role="gridcell"><div class="slds-truncate">{flow.fullName}</div></td>
+                                        <td role="gridcell">{flow.formattedLastModifiedDate}</td>
+                                        <td role="gridcell">{flow.lastModifiedByName}</td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
-        </div>
+        </article>
     </template>
 </template>
