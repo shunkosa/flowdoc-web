@@ -6,33 +6,54 @@ export default class List extends LightningElement {
     @track flowList;
 
     connectedCallback() {
-        (async () => {
-            const body = {
-                instance_url: decodeURIComponent(this.getCookie('instance_url')),
-                access_token: this.getCookie('access_token')
-            };
-            fetch('api/flows', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json; charset=utf-8'
-                },
-                body: JSON.stringify(body)
+        const body = {
+            instance_url: decodeURIComponent(this.getCookie('instance_url')),
+            access_token: this.getCookie('access_token')
+        };
+        fetch('api/flows', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8'
+            },
+            body: JSON.stringify(body)
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                this.flowList = data.flows;
+                const numOfAvailableFlows = this.flowList.filter((f) => f.isSupported).length;
+                this.message = `${numOfAvailableFlows} of ${this.flowList.length} flows are available.`;
             })
-                .then((response) => response.json())
-                .then((data) => {
-                    this.flowList = data.flows;
-                    const numOfAvailableFlows = this.flowList.filter((f) => f.isSupported).length;
-                    this.message = `${numOfAvailableFlows} of ${this.flowList.length} flows are available.`;
-                })
-                .catch((error) => console.log(error))
-                .finally(() => {
-                    this.isLoading = false;
-                });
-        })();
+            .catch((error) => console.log(error))
+            .finally(() => {
+                this.isLoading = false;
+            });
     }
 
     get hasFlowList() {
         return this.flowList && Object.keys(this.flowList).length !== 0;
+    }
+
+    download(event) {
+        this.isLoading = true;
+        const name = event.target.dataset.name;
+        const flow = this.flowList.find((f) => f.fullName === name);
+        fetch('api/pdf', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8'
+            },
+            body: JSON.stringify({
+                name: name,
+                flow: flow
+            })
+        })
+            .then((response) => response.json())
+            .then((docDefinition) => {
+                pdfMake.createPdf(docDefinition).open();
+            })
+            .finally(() => {
+                this.isLoading = false;
+            });
     }
 
     getCookie(name) {

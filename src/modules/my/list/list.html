@@ -65,7 +65,13 @@
                                         <td class="slds-text-align_right" role="gridcell" tabindex="0">
                                             <template if:true={flow.isSupported}>
                                                 <label class="slds-checkbox-button">
-                                                    <input class="slds-assistive-text" type="checkbox" tabindex="-1" />
+                                                    <input
+                                                        class="slds-assistive-text"
+                                                        type="checkbox"
+                                                        tabindex="-1"
+                                                        onclick={download}
+                                                        data-name={flow.fullName}
+                                                    />
                                                     <span
                                                         class="slds-icon_container slds-icon-utility-download slds-current-color"
                                                     >
