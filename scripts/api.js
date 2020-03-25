@@ -17,6 +17,10 @@ router.post('/flows', (req, res, next) => {
             version: '48.0'
         });
         const flowList = await conn.metadata.list({ type: 'Flow' }, '48.0');
+        if (!flowList) {
+            res.json({ flows: [] });
+            return;
+        }
         const chunkedFullNames = chunk(
             flowList.map((f) => f.fullName),
             10

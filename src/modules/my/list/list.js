@@ -20,8 +20,12 @@ export default class List extends LightningElement {
             .then((response) => response.json())
             .then((data) => {
                 this.flowList = data.flows;
-                const numOfAvailableFlows = this.flowList.filter((f) => f.isSupported).length;
-                this.message = `${numOfAvailableFlows} of ${this.flowList.length} flows are available.`;
+                if (this.flowList.length === 0) {
+                    this.message = 'No flows/processes in the org.';
+                } else {
+                    const numOfAvailableFlows = this.flowList.filter((f) => f.isSupported).length;
+                    this.message = `${numOfAvailableFlows} of ${this.flowList.length} flows/processes are available.`;
+                }
             })
             .catch((error) => console.log(error))
             .finally(() => {
