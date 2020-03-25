@@ -7,12 +7,7 @@
             <div class="slds-page-header__col-title">
                 <div class="slds-media">
                     <div class="slds-media__figure">
-                        <span class="slds-icon_container slds-icon-standard-flow" title="flow">
-                            <svg class="slds-icon slds-page-header__icon" aria-hidden="true">
-                                <use xlink:href="assets/slds/icons/standard-sprite/svg/symbols.svg#flow"></use>
-                            </svg>
-                            <span class="slds-assistive-text">flow</span>
-                        </span>
+                        <ui-icon category="standard" name="flow" size="header"></ui-icon>
                     </div>
                     <div class="slds-media__body">
                         <div class="slds-page-header__name">
@@ -43,7 +38,7 @@
     </div>
     <template if:true={hasFlowList}>
         <article class="slds-card slds-var-m-horizontal_medium slds-var-m-bottom_medium">
-            <div class="slds-card__bod">
+            <div class="slds-card__body">
                 <div class="slds-scrollable slds-grow">
                     <div class="slds-scrollable_none">
                         <table
@@ -83,16 +78,12 @@
                                                         onclick={download}
                                                         data-name={flow.fullName}
                                                     />
-                                                    <span
-                                                        class="slds-icon_container slds-icon-utility-download slds-current-color"
-                                                    >
-                                                        <svg class="slds-icon slds-icon_x-small" aria-hidden="true">
-                                                            <use
-                                                                xlink:href="assets/slds/icons/utility-sprite/svg/symbols.svg#download"
-                                                            ></use>
-                                                        </svg>
-                                                        <span class="slds-assistive-text">Download PDF</span>
-                                                    </span>
+                                                    <ui-icon
+                                                        category="utility"
+                                                        name="download"
+                                                        size="x-small"
+                                                        type="button"
+                                                    ></ui-icon>
                                                 </label>
                                             </template>
                                         </td>
