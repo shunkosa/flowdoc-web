@@ -37,6 +37,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/flows', (req, res) => {
+    console.log(req.session.token);
     if (req.session.token) {
         res.sendFile(path.resolve(DIST_DIR, 'index.html'));
     } else {
