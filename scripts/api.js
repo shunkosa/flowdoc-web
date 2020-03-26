@@ -50,8 +50,9 @@ router.post('/flows', (req, res, next) => {
 router.post('/pdf', (req, res) => {
     const flow = req.body.flow.detail;
     const name = req.body.name;
+    const locale = req.body.locale;
     const fp = new flowParser(flow);
-    const r = new renderer(fp, 'en', name);
+    const r = new renderer(fp, locale, name);
     const docDefinition = r.createDocDefinition();
     res.json(docDefinition);
 });

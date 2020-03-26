@@ -1,0 +1,21 @@
+<template>
+    <fieldset class="slds-form-element">
+        <legend class="slds-form-element__legend slds-form-element__label">Output language</legend>
+        <div class="slds-form-element__control">
+            <div class="slds-radio_button-group">
+                <span class="slds-button slds-radio_button">
+                    <input type="radio" name="lang" id="input-en" value="en" checked="checked" onclick={handleClick} />
+                    <label class="slds-radio_button__label" for="input-en">
+                        <span class="slds-radio_faux">English</span>
+                    </label>
+                </span>
+                <span class="slds-button slds-radio_button">
+                    <input type="radio" name="lang" id="input-ja" value="ja" onclick={handleClick} />
+                    <label class="slds-radio_button__label" for="input-ja">
+                        <span class="slds-radio_faux">Japanese</span>
+                    </label>
+                </span>
+            </div>
+        </div>
+    </fieldset>
+</template>

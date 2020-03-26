@@ -37,6 +37,13 @@
         </div>
     </div>
     <template if:true={hasFlowList}>
+        <!--Language Option-->
+        <article class="slds-card slds-var-m-horizontal_medium slds-var-m-bottom_medium">
+            <div class="slds-card__body slds-card__body_inner">
+                <ui-lang onlanguage={setLanguage}></ui-lang>
+            </div>
+        </article>
+        <!--List-->
         <article class="slds-card slds-var-m-horizontal_medium slds-var-m-bottom_medium">
             <div class="slds-card__body">
                 <div class="slds-scrollable slds-grow">

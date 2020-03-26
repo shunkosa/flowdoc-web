@@ -4,6 +4,7 @@ export default class List extends LightningElement {
     @track message = 'Loading...';
     @track isLoading = true;
     @track flowList;
+    locale = 'en';
 
     connectedCallback() {
         fetch('api/flows', {
@@ -44,7 +45,8 @@ export default class List extends LightningElement {
             },
             body: JSON.stringify({
                 name: name,
-                flow: flow
+                flow: flow,
+                locale: this.locale
             })
         })
             .then((response) => response.json())
@@ -58,5 +60,9 @@ export default class List extends LightningElement {
 
     logout() {
         window.location.href = '../auth/logout';
+    }
+
+    setLanguage(event) {
+        this.locale = event.detail;
     }
 }
