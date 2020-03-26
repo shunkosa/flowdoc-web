@@ -16,6 +16,7 @@ const HOST = process.env.HOST || 'localhost';
 const PORT = process.env.PORT || 5000;
 const DIST_DIR = './dist';
 
+app.enable('trust proxy');
 app.use(
     session({
         secret: 'connection',
@@ -23,7 +24,8 @@ app.use(
         saveUninitialized: false,
         cookie: {
             secure: app.get('env') === 'production'
-        }
+        },
+        proxy: true
     })
 );
 
