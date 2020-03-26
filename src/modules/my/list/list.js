@@ -1,7 +1,7 @@
 import { LightningElement, track } from 'lwc';
 
 export default class List extends LightningElement {
-    @track message = 'Loading...';
+    @track username = 'Loading...';
     @track isLoading = true;
     @track flowList;
     locale = 'en';
@@ -16,13 +16,7 @@ export default class List extends LightningElement {
             .then((response) => response.json())
             .then((data) => {
                 this.flowList = data.flows;
-                const username = data.username;
-                if (this.flowList.length === 0) {
-                    this.message = `No flows/processes in the org. (${username})`;
-                } else {
-                    const numOfAvailableFlows = this.flowList.filter((f) => f.isSupported).length;
-                    this.message = `${numOfAvailableFlows} of ${this.flowList.length} flows/processes are available. (${username})`;
-                }
+                this.username = data.username;
             })
             .catch((error) => console.log(error))
             .finally(() => {
@@ -31,7 +25,19 @@ export default class List extends LightningElement {
     }
 
     get hasFlowList() {
-        return this.flowList && Object.keys(this.flowList).length !== 0;
+        return this.flowList && this.flowList.length !== 0;
+    }
+
+    get isEmpty() {
+        return this.flowList && this.flowList.length === 0;
+    }
+
+    get flowCount() {
+        return this.flowList ? this.flowList.length : 0;
+    }
+
+    get availableCount() {
+        return this.flowList ? this.flowList.filter((f) => f.isSupported).length : 0;
     }
 
     download(event) {

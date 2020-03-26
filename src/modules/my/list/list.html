@@ -2,7 +2,7 @@
     <template if:true={isLoading}>
         <ui-spinner></ui-spinner>
     </template>
-    <div class="slds-page-header slds-var-m-around_medium">
+    <div class="slds-page-header slds-page-header_record-home slds-var-m-around_medium">
         <div class="slds-page-header__row">
             <div class="slds-page-header__col-title">
                 <div class="slds-media">
@@ -18,7 +18,7 @@
                             </div>
                         </div>
                         <p class="slds-page-header__name-meta">
-                            {message}
+                            {username}
                         </p>
                     </div>
                 </div>
@@ -33,6 +33,20 @@
                         </ul>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="slds-page-header__row slds-page-header__row_gutters">
+            <div class="slds-page-header__col-details">
+                <ul class="slds-page-header__detail-row">
+                    <li class="slds-page-header__detail-block">
+                        <div class="slds-text-title">Flows/Processes</div>
+                        <div class="slds-truncate">{flowCount}</div>
+                    </li>
+                    <li class="slds-page-header__detail-block">
+                        <div class="slds-text-title">Available</div>
+                        <div class="slds-truncate">{availableCount}</div>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
@@ -111,4 +125,13 @@
             </div>
         </article>
     </template>
+    <!--
+    <template if:true={isEmpty}>
+        <article class="slds-card">
+            <div class="slds-card__body slds-card__body_inner">
+                <ui-empty></ui-empty>
+            </div>
+          </article>
+    </template>
+    -->
 </template>
