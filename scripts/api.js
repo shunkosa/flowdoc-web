@@ -16,9 +16,11 @@ router.post('/flows', (req, res, next) => {
             instanceUrl: instanceUrl,
             version: '48.0'
         });
+        const users = await conn.query(`select username from user where id = '${req.session.token.userId}'`);
+        const username = users.records[0].Username;
         const flowList = await conn.metadata.list({ type: 'Flow' }, '48.0');
         if (!flowList) {
-            res.json({ flows: [] });
+            res.json({ flows: [], username: username });
             return;
         }
         const chunkedFullNames = chunk(
@@ -41,7 +43,7 @@ router.post('/flows', (req, res, next) => {
                 }
             }
         }
-        res.json({ flows: flowList });
+        res.json({ flows: flowList, username: username });
     })().catch(next);
 });
 
