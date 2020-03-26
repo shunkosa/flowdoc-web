@@ -6,16 +6,11 @@ export default class List extends LightningElement {
     @track flowList;
 
     connectedCallback() {
-        const body = {
-            instance_url: decodeURIComponent(this.getCookie('instance_url')),
-            access_token: this.getCookie('access_token')
-        };
         fetch('api/flows', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json; charset=utf-8'
-            },
-            body: JSON.stringify(body)
+            }
         })
             .then((response) => response.json())
             .then((data) => {
@@ -61,28 +56,6 @@ export default class List extends LightningElement {
     }
 
     logout() {
-        this.deleteCookie('instance_url');
-        this.deleteCookie('access_token');
         window.location.href = '../auth/logout';
-    }
-
-    getCookie(name) {
-        var value = '; ' + document.cookie;
-        var parts = value.split('; ' + name + '=');
-        if (parts.length === 2) {
-            return parts.pop().split(';').shift();
-        }
-        return undefined;
-    }
-
-    deleteCookie(name) {
-        document.cookie = `${name}=; max-age=0`;
-    }
-
-    chunk([...array], size = 1) {
-        return array.reduce(
-            (acc, value, index) => (index % size ? acc : [...acc, array.slice(index, index + size)]),
-            []
-        );
     }
 }

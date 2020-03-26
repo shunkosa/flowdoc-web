@@ -1,8 +1,8 @@
 <template>
-    <template if:false={showsList}>
+    <template if:false={hasSession}>
         <my-home></my-home>
     </template>
-    <template if:true={showsList}>
+    <template if:true={hasSession}>
         <my-list></my-list>
     </template>
 </template>

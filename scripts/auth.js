@@ -30,8 +30,11 @@ router.get('/callback', (req, res, next) => {
         conn = new jsforce.Connection({ oauth2: oauth2, version: '48.0' });
         const code = req.param('code');
         await conn.authorize(code);
-        res.cookie('access_token', conn.accessToken);
-        res.cookie('instance_url', conn.instanceUrl);
+        req.session.token = {
+            accessToken: conn.accessToken,
+            instanceUrl: conn.instanceUrl,
+            userId: conn.userInfo.id
+        };
         res.redirect('/flows');
     })().catch(next);
 });
@@ -41,6 +44,7 @@ router.get('/logout', (req, res, next) => {
         if (conn.accessToken) {
             conn.logoutByOAuth2();
         }
+        req.session.destroy();
         res.redirect('/');
     })().catch(next);
 });

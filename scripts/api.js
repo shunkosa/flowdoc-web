@@ -9,8 +9,8 @@ router.use(express.urlencoded({ extended: true }));
 
 router.post('/flows', (req, res, next) => {
     (async () => {
-        const accessToken = req.body.access_token;
-        const instanceUrl = req.body.instance_url;
+        const accessToken = req.session.token.accessToken;
+        const instanceUrl = req.session.token.instanceUrl;
         const conn = new jsforce.Connection({
             accessToken: accessToken,
             instanceUrl: instanceUrl,
@@ -52,6 +52,11 @@ router.post('/pdf', (req, res) => {
     const r = new renderer(fp, 'en', name);
     const docDefinition = r.createDocDefinition();
     res.json(docDefinition);
+});
+
+router.get('/existense/session', (req, res) => {
+    const token = req.session ? req.session.token : undefined;
+    res.json({ hasSession: token !== undefined });
 });
 
 function chunk([...array], size = 1) {
