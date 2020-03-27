@@ -5,6 +5,7 @@ export default class List extends LightningElement {
     @track isLoading = true;
     @track flowList;
     locale = 'en';
+    instanceUrl;
 
     connectedCallback() {
         fetch('api/flows', {
@@ -17,6 +18,7 @@ export default class List extends LightningElement {
             .then((data) => {
                 this.flowList = data.flows;
                 this.username = data.username;
+                this.instanceUrl = data.instanceUrl;
             })
             .catch((error) => console.log(error))
             .finally(() => {
@@ -66,6 +68,10 @@ export default class List extends LightningElement {
 
     logout() {
         window.location.href = '../auth/logout';
+    }
+
+    get processBuilderUrl() {
+        return `${this.instanceUrl}/lightning/setup/ProcessAutomation/home`;
     }
 
     setLanguage(event) {
