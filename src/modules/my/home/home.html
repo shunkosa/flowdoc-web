@@ -1,21 +1,32 @@
 <template>
     <section class="slds-grid slds-grid_vertical container">
         <header class="slds-var-p-around_xx-large slds-text-align_center">
-          <h1 class="slds-text-heading_large">Flowdoc</h1>
+            <h1 class="slds-text-heading_large">Flowdoc</h1>
+            <p class="slds-var-p-top_x-small">
+                NOTICE: This app is in development. <br />
+                See current issues or let me know your feedback
+                <a href="https://github.com/shunkosa/sfdx-flowdoc-plugin/issues" target="_blank">here</a>. Change log is
+                available
+                <a href="https://github.com/shunkosa/sfdx-flowdoc-plugin/blob/master/CHANGELOG.md" target="_blank"
+                    >here</a
+                >.
+            </p>
         </header>
         <main class="slds-text-align_center">
-          <div class="slds-var-p-around_medium media"><img src="resources/flowdoc.png"/></div>
-          <div class="slds-var-p-around_xx-large buttons">
-            <a href="./auth">
-              <span class="slds-button slds-button_brand slds-var-m-horizontal_x-small">Log in to Production / DE</span>
-            </a>
-            <a href="./auth?orgtype=sandbox">
-              <span class="slds-button slds-button_neutral slds-var-m-horizontal_x-small">Log in to Sandbox</span>
-            </a>
-          </div>
+            <div class="slds-var-p-around_medium media"><img src="resources/flowdoc.png" /></div>
+            <div class="slds-var-p-around_xx-large buttons">
+                <a href="./auth">
+                    <span class="slds-button slds-button_brand slds-var-m-horizontal_x-small"
+                        >Log in to Production / DE</span
+                    >
+                </a>
+                <a href="./auth?orgtype=sandbox">
+                    <span class="slds-button slds-button_neutral slds-var-m-horizontal_x-small">Log in to Sandbox</span>
+                </a>
+            </div>
         </main>
         <footer class="slds-col_bump-top slds-var-p-around_medium slds-text-align_center">
-          <div class="slds-text-color_weak">Created by @shunkosa</div>
+            <div class="slds-text-color_weak">Created by @shunkosa</div>
         </footer>
     </section>
 </template>
