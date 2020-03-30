@@ -5,3 +5,11 @@
 .media img {
   max-width: 250px;
 }
+
+nav {
+  display: block;
+}
+
+.btn + .btn {
+  margin-left: 1.5rem;
+}
