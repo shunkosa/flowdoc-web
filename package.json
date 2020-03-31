@@ -11,7 +11,7 @@
         "express-session": "^1.17.0",
         "helmet": "^3.21.3",
         "jsforce": "^1.9.3",
-        "sfdx-flowdoc-plugin": "0.0.10"
+        "sfdx-flowdoc-plugin": "0.1.0"
     },
     "devDependencies": {
         "@salesforce-ux/design-system": "^2.11.6",
