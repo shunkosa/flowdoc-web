@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const jsforce = require('jsforce');
-const flowParser = require('../node_modules/sfdx-flowdoc-plugin/lib/lib/flowParser').default;
-const renderer = require('../node_modules/sfdx-flowdoc-plugin/lib/lib/renderer').default;
+const FlowParser = require('../node_modules/sfdx-flowdoc-plugin/lib/lib/FlowParser').default;
+const Renderer = require('../node_modules/sfdx-flowdoc-plugin/lib/lib/Renderer').default;
 
 router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
@@ -59,8 +59,8 @@ router.post('/pdf', (req, res) => {
     const flow = req.body.flow.detail;
     const name = req.body.name;
     const locale = req.body.locale;
-    const fp = new flowParser(flow);
-    const r = new renderer(fp, locale, name);
+    const fp = new FlowParser(flow);
+    const r = new Renderer(fp, locale, name);
     const docDefinition = r.createDocDefinition();
     res.json(docDefinition);
 });
