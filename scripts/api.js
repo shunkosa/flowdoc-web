@@ -42,7 +42,7 @@ router.post('/flows', (req, res, next) => {
             for (const d of detailedFlowList) {
                 if (f.fullName === d.fullName) {
                     f.detail = d;
-                    f.isSupported = d.processType === 'Workflow';
+                    f.isSupported = ['Workflow', 'CustomEvent', 'InvocableProcess'].includes(d.processType);
                     break;
                 }
             }
