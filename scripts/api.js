@@ -43,6 +43,7 @@ router.post('/flows', (req, res, next) => {
                 if (f.fullName === d.fullName) {
                     f.detail = d;
                     f.isSupported = ['Workflow', 'CustomEvent', 'InvocableProcess'].includes(d.processType);
+                    f.type = formatType[d.processType] ? formatType[d.processType] : 'Flow';
                     break;
                 }
             }
@@ -73,5 +74,11 @@ router.get('/existense/session', (req, res) => {
 function chunk([...array], size = 1) {
     return array.reduce((acc, value, index) => (index % size ? acc : [...acc, array.slice(index, index + size)]), []);
 }
+
+const formatType = {
+    Workflow: 'Process - Record Trigger',
+    CustomEvent: 'Process - Platform Event',
+    InvocableProcess: 'Process - Invocable'
+};
 
 module.exports = router;
