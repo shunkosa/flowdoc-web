@@ -1,8 +1,12 @@
 <template>
-    <template if:false={hasSession}>
-        <my-home></my-home>
+    <template if:false={isList}>
+        <template if:false={hasSession}>
+            <my-home></my-home>
+        </template>
     </template>
-    <template if:true={hasSession}>
-        <my-list></my-list>
+    <template if:true={isList}>
+        <template if:true={hasSession}>
+            <my-list></my-list>
+        </template>
     </template>
 </template>

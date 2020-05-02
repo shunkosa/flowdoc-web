@@ -1,0 +1,28 @@
+<template>
+    <fieldset class="slds-form-element">
+        <legend class="slds-form-element__legend slds-form-element__label">Output format</legend>
+        <div class="slds-form-element__control">
+            <div class="slds-radio_button-group">
+                <span class="slds-button slds-radio_button">
+                    <input
+                        type="radio"
+                        name="format"
+                        id="input-pdf"
+                        value="pdf"
+                        checked="checked"
+                        onclick={handleClick}
+                    />
+                    <label class="slds-radio_button__label" for="input-pdf">
+                        <span class="slds-radio_faux">PDF</span>
+                    </label>
+                </span>
+                <span class="slds-button slds-radio_button">
+                    <input type="radio" name="format" id="input-docx" value="docx" onclick={handleClick} />
+                    <label class="slds-radio_button__label" for="input-docx">
+                        <span class="slds-radio_faux">Word</span>
+                    </label>
+                </span>
+            </div>
+        </div>
+    </fieldset>
+</template>

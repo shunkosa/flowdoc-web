@@ -5,6 +5,7 @@ export default class List extends LightningElement {
     @track isLoading = true;
     @track flowList;
     locale = 'en';
+    format = 'pdf';
     instanceUrl;
 
     connectedCallback() {
@@ -46,7 +47,15 @@ export default class List extends LightningElement {
         this.isLoading = true;
         const name = event.target.dataset.name;
         const flow = this.flowList.find((f) => f.fullName === name);
-        fetch('api/pdf', {
+        if (this.format === 'pdf') {
+            this.fetchPdf(name, flow);
+        } else if (this.format === 'docx') {
+            this.fetchDocx(name, flow);
+        }
+    }
+
+    fetchPdf(name, flow) {
+        fetch(`api/pdf`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json; charset=utf-8'
@@ -66,6 +75,37 @@ export default class List extends LightningElement {
             });
     }
 
+    fetchDocx(name, flow) {
+        fetch(`api/docx`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8'
+            },
+            body: JSON.stringify({
+                name: name,
+                flow: flow,
+                locale: this.locale
+            })
+        })
+            .then((response) => response.json())
+            .then((result) => {
+                console.log(result);
+                const base64 = result.base64;
+                const bin = atob(base64.replace(/^.*,/, ''));
+                const buffer = new Uint8Array(bin.length);
+                for (let i = 0; i < bin.length; i++) {
+                    buffer[i] = bin.charCodeAt(i);
+                }
+                const blob = new Blob([buffer.buffer], {
+                    type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+                });
+                saveAs(blob, `${name}.docx`);
+            })
+            .finally(() => {
+                this.isLoading = false;
+            });
+    }
+
     logout() {
         window.location.href = '../auth/logout';
     }
@@ -76,5 +116,9 @@ export default class List extends LightningElement {
 
     setLanguage(event) {
         this.locale = event.detail;
+    }
+
+    setFormat(event) {
+        this.format = event.detail;
     }
 }

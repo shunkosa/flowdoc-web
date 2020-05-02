@@ -61,7 +61,14 @@
         <!--Language Option-->
         <article class="slds-card slds-var-m-horizontal_medium slds-var-m-bottom_medium">
             <div class="slds-card__body slds-card__body_inner">
-                <ui-lang onlanguage={setLanguage}></ui-lang>
+                <div class="slds-grid slds-gutters">
+                    <div class="slds-col slds-grow-none">
+                        <ui-lang onlanguage={setLanguage}></ui-lang>
+                    </div>
+                    <div class="slds-col">
+                        <ui-format onformat={setFormat}></ui-format>
+                    </div>
+                </div>
             </div>
         </article>
         <!--List-->
