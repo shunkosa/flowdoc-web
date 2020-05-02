@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const jsforce = require('jsforce');
-const FlowParser = require('../node_modules/sfdx-flowdoc-plugin/lib/lib/FlowParser').default;
-const Renderer = require('../node_modules/sfdx-flowdoc-plugin/lib/lib/Renderer').default;
+const flowParser = require('../node_modules/sfdx-flowdoc-plugin/lib/lib/flowParser').default;
+const buildPdfContent = require('../node_modules/sfdx-flowdoc-plugin/lib/lib/pdf/pdfBuilder').default;
+const buildDocxContent = require('../node_modules/sfdx-flowdoc-plugin/lib/lib/docx/docxBuilder').default;
+const docx = require('docx');
 
 router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
@@ -60,10 +62,25 @@ router.post('/pdf', (req, res) => {
     const flow = req.body.flow.detail;
     const name = req.body.name;
     const locale = req.body.locale;
-    const fp = new FlowParser(flow);
-    const r = new Renderer(fp, locale, name);
-    const docDefinition = r.createDocDefinition();
+    const fp = new flowParser(flow, name);
+    const hrDoc = fp.createReadableProcess();
+    const docDefinition = buildPdfContent(hrDoc, locale);
     res.json(docDefinition);
+});
+
+router.post('/docx', (req, res, next) => {
+    (async () => {
+        const flow = req.body.flow.detail;
+        const name = req.body.name;
+        const locale = req.body.locale;
+        const fp = new flowParser(flow, name);
+        const hrDoc = fp.createReadableProcess();
+        const doc = buildDocxContent(hrDoc, locale);
+        const base64string = await docx.Packer.toBase64String(doc);
+        res.json({
+            base64: base64string
+        });
+    })().catch(next);
 });
 
 router.get('/existense/session', (req, res) => {
