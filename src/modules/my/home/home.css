@@ -1,15 +1,24 @@
+h1 {
+    color: #54698d;
+    font-size: 3rem;
+}
+
 .container {
-  min-height: 100vh;
+    min-height: 100vh;
 }
 
 .media img {
-  max-width: 250px;
+    max-width: 720px;
 }
 
 nav {
-  display: block;
+    display: block;
 }
 
 .btn + .btn {
-  margin-left: 1.5rem;
+    margin-left: 1.5rem;
+}
+
+.description {
+    font-size: 1rem;
 }
