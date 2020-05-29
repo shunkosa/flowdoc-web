@@ -7,6 +7,7 @@ export default class App extends LightningElement {
     get isList() {
         return document.location.toString().includes('/flows');
     }
+
     get hasSession() {
         if (this.session && this.session.data) {
             return this.session.data.hasSession;
