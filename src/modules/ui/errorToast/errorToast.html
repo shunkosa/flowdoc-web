@@ -1,0 +1,48 @@
+<template>
+    <template if:true={isOpen}>
+        <div class="toast-error-container">
+            <div class="slds-notify_container">
+                <div class="slds-notify slds-notify_toast slds-theme_error" role="status">
+                    <span class="slds-assistive-text">error</span>
+
+                    <span
+                        class="slds-icon-utility-error slds-m-right_small slds-no-flex slds-align-top slds-icon_container"
+                    >
+                        <svg focusable="false" data-key="error" aria-hidden="true" class="slds-icon slds-icon_small">
+                            <use xlink:href="assets/slds/icons/utility-sprite/svg/symbols.svg#error"></use>
+                        </svg>
+                    </span>
+                    <div class="error-content slds-notify__content">
+                        <h2 class="slds-text-heading_small">Error</h2>
+                        <div>
+                            An unexpected error occurred while creating the document. Report this with the following
+                            stack to
+                            <a href="https://github.com/shunkosa/sfdx-flowdoc-plugin/issues" target="_blank"
+                                >GitHub issue</a
+                            >
+                        </div>
+                        <pre class="error-details slds-box slds-box_x-small slds-theme_default">{stack}</pre>
+                    </div>
+                    <div class="slds-notify__close">
+                        <button
+                            title="Close"
+                            type="button"
+                            class="slds-button slds-button_icon slds-button_icon-bare slds-button_icon-inverse"
+                            onclick={close}
+                        >
+                            <svg
+                                focusable="false"
+                                data-key="close"
+                                aria-hidden="true"
+                                class="slds-button__icon slds-button__icon_large slds-button_icon-inverse"
+                            >
+                                <use xlink:href="assets/slds/icons/utility-sprite/svg/symbols.svg#close"></use>
+                            </svg>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+</template>

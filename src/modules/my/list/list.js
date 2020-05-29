@@ -8,6 +8,8 @@ export default class List extends LightningElement {
     format = 'pdf';
     instanceUrl;
 
+    errorStack = '';
+
     connectedCallback() {
         fetch('api/flows', {
             method: 'POST',
@@ -66,9 +68,18 @@ export default class List extends LightningElement {
                 locale: this.locale
             })
         })
-            .then((response) => response.json())
+            .then((response) => {
+                return response.json().then((json) => {
+                    return response.ok ? json : Promise.reject(json);
+                });
+            })
             .then((docDefinition) => {
                 pdfMake.createPdf(docDefinition).open();
+            })
+            .catch((error) => {
+                this.errorStack = error.error;
+                const modal = this.template.querySelector('ui-error-toast');
+                modal.open();
             })
             .finally(() => {
                 this.isLoading = false;
@@ -87,7 +98,11 @@ export default class List extends LightningElement {
                 locale: this.locale
             })
         })
-            .then((response) => response.json())
+            .then((response) => {
+                return response.json().then((json) => {
+                    return response.ok ? json : Promise.reject(json);
+                });
+            })
             .then((result) => {
                 console.log(result);
                 const base64 = result.base64;
@@ -100,6 +115,11 @@ export default class List extends LightningElement {
                     type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
                 });
                 saveAs(blob, `${name}.docx`);
+            })
+            .catch((error) => {
+                this.errorStack = error.error;
+                const modal = this.template.querySelector('ui-error-toast');
+                modal.open();
             })
             .finally(() => {
                 this.isLoading = false;

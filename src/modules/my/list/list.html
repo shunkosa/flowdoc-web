@@ -2,6 +2,7 @@
     <template if:true={isLoading}>
         <ui-spinner></ui-spinner>
     </template>
+    <ui-error-toast stack={errorStack}></ui-error-toast>
     <div class="slds-page-header slds-page-header_record-home slds-var-m-around_medium">
         <div class="slds-page-header__row">
             <div class="slds-page-header__col-title">
