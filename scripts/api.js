@@ -62,10 +62,14 @@ router.post('/pdf', (req, res) => {
     const flow = req.body.flow.detail;
     const name = req.body.name;
     const locale = req.body.locale;
-    const fp = new flowParser(flow, name);
-    const hrDoc = fp.createReadableProcess();
-    const docDefinition = buildPdfContent(hrDoc, locale);
-    res.json(docDefinition);
+    try {
+        const fp = new flowParser(flow, name);
+        const hrDoc = fp.createReadableProcess();
+        const docDefinition = buildPdfContent(hrDoc, locale);
+        res.json(docDefinition);
+    } catch (error) {
+        res.status(500).send({ error: error.stack });
+    }
 });
 
 router.post('/docx', (req, res, next) => {
@@ -73,13 +77,17 @@ router.post('/docx', (req, res, next) => {
         const flow = req.body.flow.detail;
         const name = req.body.name;
         const locale = req.body.locale;
-        const fp = new flowParser(flow, name);
-        const hrDoc = fp.createReadableProcess();
-        const doc = buildDocxContent(hrDoc, locale);
-        const base64string = await docx.Packer.toBase64String(doc);
-        res.json({
-            base64: base64string
-        });
+        try {
+            const fp = new flowParser(flow, name);
+            const hrDoc = fp.createReadableProcess();
+            const doc = buildDocxContent(hrDoc, locale);
+            const base64string = await docx.Packer.toBase64String(doc);
+            res.json({
+                base64: base64string
+            });
+        } catch (error) {
+            res.status(500).send({ error: error.stack });
+        }
     })().catch(next);
 });
 
