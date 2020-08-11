@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const jsforce = require('jsforce');
 
+const constant = require('./constant');
+
 require('dotenv').config();
 
 let oauth2;
@@ -27,7 +29,7 @@ router.get('/', (req, res) => {
 
 router.get('/callback', (req, res, next) => {
     (async () => {
-        conn = new jsforce.Connection({ oauth2: oauth2, version: '48.0' });
+        conn = new jsforce.Connection({ oauth2: oauth2, version: constant.API_VERSION });
         const code = req.param('code');
         await conn.authorize(code);
         req.session.token = {

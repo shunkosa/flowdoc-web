@@ -5,6 +5,7 @@ const flowParser = require('../node_modules/sfdx-flowdoc-plugin/lib/lib/flowPars
 const buildPdfContent = require('../node_modules/sfdx-flowdoc-plugin/lib/lib/pdf/pdfBuilder').default;
 const buildDocxContent = require('../node_modules/sfdx-flowdoc-plugin/lib/lib/docx/docxBuilder').default;
 const docx = require('docx');
+const constant = require('./constant');
 
 router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
@@ -16,11 +17,11 @@ router.post('/flows', (req, res, next) => {
         const conn = new jsforce.Connection({
             accessToken: accessToken,
             instanceUrl: instanceUrl,
-            version: '48.0'
+            version: constant.API_VERSION
         });
         const users = await conn.query(`select username from user where id = '${req.session.token.userId}'`);
         const username = users.records[0].Username;
-        const flowList = await conn.metadata.list({ type: 'Flow' }, '48.0');
+        const flowList = await conn.metadata.list({ type: 'Flow' }, constant.API_VERSION);
         if (!flowList) {
             res.json({
                 flows: [],
