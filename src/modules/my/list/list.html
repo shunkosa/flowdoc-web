@@ -3,152 +3,169 @@
         <ui-spinner></ui-spinner>
     </template>
     <ui-error-toast stack={errorStack}></ui-error-toast>
-    <div class="slds-page-header slds-page-header_record-home slds-var-m-around_medium">
-        <div class="slds-page-header__row">
-            <div class="slds-page-header__col-title">
-                <div class="slds-media">
-                    <div class="slds-media__figure">
-                        <ui-icon category="standard" name="flow" size="header"></ui-icon>
-                    </div>
-                    <div class="slds-media__body">
-                        <div class="slds-page-header__name">
-                            <div class="slds-page-header__name-title">
-                                <h1>
-                                    <span class="slds-page-header__title slds-truncate" title="Flowdoc">Flowdoc</span>
-                                </h1>
-                            </div>
+    <div class="wrapper">
+        <div class="slds-page-header slds-page-header_record-home slds-var-m-around_medium">
+            <div class="slds-page-header__row">
+                <div class="slds-page-header__col-title">
+                    <div class="slds-media">
+                        <div class="slds-media__figure">
+                            <ui-icon category="standard" name="flow" size="header"></ui-icon>
                         </div>
-                        <p class="slds-page-header__name-meta">
-                            {username}
-                        </p>
+                        <div class="slds-media__body">
+                            <div class="slds-page-header__name">
+                                <div class="slds-page-header__name-title">
+                                    <h1>
+                                        <span class="slds-page-header__title slds-truncate" title="Flowdoc"
+                                            >Flowdoc</span
+                                        >
+                                    </h1>
+                                </div>
+                            </div>
+                            <p class="slds-page-header__name-meta">
+                                {username}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-page-header__col-actions">
+                    <div class="slds-page-header__controls">
+                        <div class="slds-page-header__control">
+                            <ul class="slds-button-group-list">
+                                <li>
+                                    <a href={processBuilderUrl} target="_blank" class="slds-button slds-button_neutral">
+                                        Open Process Builder
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="slds-button-group-list">
+                                <li>
+                                    <button class="slds-button slds-button_neutral" onclick={logout}>Logout</button>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="slds-page-header__col-actions">
-                <div class="slds-page-header__controls">
-                    <div class="slds-page-header__control">
-                        <ul class="slds-button-group-list">
-                            <li>
-                                <a href={processBuilderUrl} target="_blank" class="slds-button slds-button_neutral">
-                                    Open Process Builder
-                                </a>
-                            </li>
-                        </ul>
-                        <ul class="slds-button-group-list">
-                            <li>
-                                <button class="slds-button slds-button_neutral" onclick={logout}>Logout</button>
-                            </li>
-                        </ul>
-                    </div>
+            <div class="slds-page-header__row slds-page-header__row_gutters">
+                <div class="slds-page-header__col-details">
+                    <ul class="slds-page-header__detail-row">
+                        <li class="slds-page-header__detail-block">
+                            <div class="slds-text-title">Flows/Processes</div>
+                            <div class="slds-truncate">{flowCount}</div>
+                        </li>
+                        <li class="slds-page-header__detail-block">
+                            <div class="slds-text-title">Loaded</div>
+                            <div class="slds-truncate">{loadedCount}</div>
+                        </li>
+                        <li class="slds-page-header__detail-block">
+                            <div class="slds-text-title">Available in loaded</div>
+                            <div class="slds-truncate">{availableCount}</div>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
-        <div class="slds-page-header__row slds-page-header__row_gutters">
-            <div class="slds-page-header__col-details">
-                <ul class="slds-page-header__detail-row">
-                    <li class="slds-page-header__detail-block">
-                        <div class="slds-text-title">Flows/Processes</div>
-                        <div class="slds-truncate">{flowCount}</div>
-                    </li>
-                    <li class="slds-page-header__detail-block">
-                        <div class="slds-text-title">Available</div>
-                        <div class="slds-truncate">{availableCount}</div>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <template if:true={hasFlowList}>
-        <!--Language Option-->
-        <article class="slds-card slds-var-m-horizontal_medium slds-var-m-bottom_medium">
-            <div class="slds-card__body slds-card__body_inner">
-                <div class="slds-grid slds-gutters">
-                    <div class="slds-col slds-grow-none">
-                        <ui-lang onlanguage={setLanguage}></ui-lang>
-                    </div>
-                    <div class="slds-col">
-                        <ui-format onformat={setFormat}></ui-format>
+        <template if:true={hasFlowList}>
+            <!--Language Option-->
+            <article class="slds-card slds-var-m-horizontal_medium slds-var-m-bottom_x-small">
+                <div class="slds-card__body slds-card__body_inner">
+                    <div class="slds-grid slds-gutters">
+                        <div class="slds-col slds-grow-none">
+                            <ui-lang onlanguage={setLanguage}></ui-lang>
+                        </div>
+                        <div class="slds-col">
+                            <ui-format onformat={setFormat}></ui-format>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </article>
-        <!--List-->
-        <article class="slds-card slds-var-m-horizontal_medium slds-var-m-bottom_medium">
-            <div class="slds-card__body">
-                <div class="slds-scrollable slds-grow">
-                    <div class="slds-scrollable_none">
-                        <table
-                            aria-multiselectable="true"
-                            class="slds-table slds-no-row-hover slds-table_bordered slds-table_fixed-layout"
-                            role="grid"
-                        >
-                            <thead>
-                                <tr class="slds-line-height_reset">
-                                    <th class="" scope="col" style="width: 4rem; height: 2rem;">
-                                        <div class="slds-truncate slds-assistive-text">Buttons</div>
-                                    </th>
-                                    <th class="" scope="col">
-                                        <div class="slds-truncate">Name</div>
-                                    </th>
-                                    <th class="" scope="col">
-                                        <div class="slds-truncate">API Name</div>
-                                    </th>
-                                    <th class="" scope="col">
-                                        <div class="slds-truncate">Type</div>
-                                    </th>
-                                    <th class="" scope="col">
-                                        <div class="slds-truncate">Last Modified Date</div>
-                                    </th>
-                                    <th class="" scope="col">
-                                        <div class="slds-truncate">Last Modified By</div>
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <template for:each={flowList} for:item="flow">
-                                    <tr aria-selected="false" class="slds-hint-parent" key={flow.fullName}>
-                                        <td class="slds-text-align_right" role="gridcell" tabindex="0">
-                                            <template if:true={flow.isSupported}>
-                                                <label class="slds-checkbox-button">
-                                                    <input
-                                                        class="slds-assistive-text"
-                                                        type="checkbox"
-                                                        tabindex="-1"
-                                                        onclick={download}
-                                                        data-name={flow.fullName}
-                                                    />
-                                                    <ui-icon
-                                                        category="utility"
-                                                        name="download"
-                                                        size="x-small"
-                                                        type="button"
-                                                    ></ui-icon>
-                                                </label>
-                                            </template>
-                                        </td>
-                                        <th scope="row">
-                                            <div class="slds-truncate" style="line-height: 2rem;">
-                                                {flow.detail.label}
-                                            </div>
+            </article>
+            <!--List-->
+            <article class="slds-card slds-var-m-horizontal_medium slds-var-m-bottom_medium view">
+                <div class="slds-card__body">
+                    <div class="slds-scrollable slds-grow">
+                        <div class="slds-scrollable_none">
+                            <table
+                                aria-multiselectable="true"
+                                class="slds-table slds-no-row-hover slds-table_bordered slds-table_fixed-layout"
+                                role="grid"
+                            >
+                                <thead>
+                                    <tr class="slds-line-height_reset">
+                                        <th class="" scope="col" style="width: 4rem; height: 2rem;">
+                                            <div class="slds-truncate slds-assistive-text">Buttons</div>
                                         </th>
-                                        <td role="gridcell"><div class="slds-truncate">{flow.fullName}</div></td>
-                                        <td role="gridcell">{flow.type}</td>
-                                        <td role="gridcell">{flow.formattedLastModifiedDate}</td>
-                                        <td role="gridcell">{flow.lastModifiedByName}</td>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate">Name</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate">API Name</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate">Type</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate">Last Modified Date</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate">Last Modified By</div>
+                                        </th>
                                     </tr>
-                                </template>
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    <template for:each={flowList} for:item="flow">
+                                        <tr aria-selected="false" class="slds-hint-parent" key={flow.fullName}>
+                                            <td class="slds-text-align_right" role="gridcell" tabindex="0">
+                                                <template if:true={flow.isSupported}>
+                                                    <label class="slds-checkbox-button">
+                                                        <input
+                                                            class="slds-assistive-text"
+                                                            type="checkbox"
+                                                            tabindex="-1"
+                                                            onclick={download}
+                                                            data-name={flow.fullName}
+                                                        />
+                                                        <ui-icon
+                                                            category="utility"
+                                                            name="download"
+                                                            size="x-small"
+                                                            type="button"
+                                                        ></ui-icon>
+                                                    </label>
+                                                </template>
+                                            </td>
+                                            <th scope="row">
+                                                <div class="slds-truncate" style="line-height: 2rem;">
+                                                    {flow.label}
+                                                </div>
+                                            </th>
+                                            <td role="gridcell"><div class="slds-truncate">{flow.fullName}</div></td>
+                                            <td role="gridcell">{flow.type}</td>
+                                            <td role="gridcell">{flow.formattedLastModifiedDate}</td>
+                                            <td role="gridcell">{flow.lastModifiedByName}</td>
+                                        </tr>
+                                    </template>
+                                    <template if:true={hasMore}>
+                                        <tr aria-selected="false" class="slds-hint-parent">
+                                            <td colspan="6" class="slds-text-align_center">
+                                                <div class="slds-p-around_x-small">
+                                                    <a onclick={loadMore}>Load More</a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </article>
-    </template>
-    <template if:true={isEmpty}>
-        <article class="slds-card slds-var-m-horizontal_medium slds-var-m-bottom_medium">
-            <div class="slds-card__body slds-card__body_inner">
-                <ui-empty></ui-empty>
-            </div>
-        </article>
-    </template>
+            </article>
+        </template>
+        <template if:true={isEmpty}>
+            <article class="slds-card slds-var-m-horizontal_medium slds-var-m-bottom_medium">
+                <div class="slds-card__body slds-card__body_inner">
+                    <ui-empty></ui-empty>
+                </div>
+            </article>
+        </template>
+    </div>
 </template>

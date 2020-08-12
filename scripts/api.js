@@ -22,39 +22,41 @@ router.post('/flows', (req, res, next) => {
         const users = await conn.query(`select username from user where id = '${req.session.token.userId}'`);
         const username = users.records[0].Username;
         const flowList = await conn.metadata.list({ type: 'Flow' }, constant.API_VERSION);
-        if (!flowList) {
-            res.json({
-                flows: [],
-                username: username,
-                instanceUrl: instanceUrl
-            });
-            return;
-        }
-        const chunkedFullNames = chunk(
-            flowList.map((f) => f.fullName),
-            10
-        );
-        let detailedFlowList = [];
-        for (const fullNames of chunkedFullNames) {
-            // eslint-disable-next-line no-await-in-loop
-            const result = await conn.metadata.read('Flow', fullNames);
-            detailedFlowList = Array.isArray(result) ? [...detailedFlowList, ...result] : [...detailedFlowList, result];
-        }
-        for (const f of flowList) {
-            f.formattedLastModifiedDate = new Date(f.lastModifiedDate).toLocaleString();
-            for (const d of detailedFlowList) {
-                if (f.fullName === d.fullName) {
-                    f.detail = d;
-                    f.isSupported = ['Workflow', 'CustomEvent', 'InvocableProcess'].includes(d.processType);
-                    f.type = formatType[d.processType] ? formatType[d.processType] : 'Flow';
-                    break;
-                }
-            }
-        }
         res.json({
-            flows: flowList,
+            flowList: !flowList ? [] : flowList,
             username: username,
             instanceUrl: instanceUrl
+        });
+    })().catch(next);
+});
+
+router.post('/flows/details', (req, res, next) => {
+    (async () => {
+        const accessToken = req.session.token.accessToken;
+        const instanceUrl = req.session.token.instanceUrl;
+        const flowNames = req.body.flowNames;
+
+        const conn = new jsforce.Connection({
+            accessToken: accessToken,
+            instanceUrl: instanceUrl,
+            version: constant.API_VERSION
+        });
+        const result = await conn.metadata.read('Flow', flowNames);
+        const flowDetailList = Array.isArray(result) ? result : [result];
+        const flowList = [];
+        for (const flowName of flowNames) {
+            const detail = flowDetailList.find((d) => flowName === d.fullName);
+            const isSupported = ['Workflow', 'CustomEvent', 'InvocableProcess'].includes(detail.processType);
+            flowList.push({
+                fullName: flowName,
+                label: detail.label,
+                isSupported,
+                type: formatType[detail.processType] ? formatType[detail.processType] : 'Flow',
+                detail: isSupported ? detail : undefined
+            });
+        }
+        res.json({
+            flows: flowList
         });
     })().catch(next);
 });
@@ -96,10 +98,6 @@ router.get('/existense/session', (req, res) => {
     const token = req.session ? req.session.token : undefined;
     res.json({ hasSession: token !== undefined });
 });
-
-function chunk([...array], size = 1) {
-    return array.reduce((acc, value, index) => (index % size ? acc : [...acc, array.slice(index, index + size)]), []);
-}
 
 const formatType = {
     Workflow: 'Process - Record Trigger',

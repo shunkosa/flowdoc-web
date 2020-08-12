@@ -3,6 +3,7 @@ import { LightningElement, track } from 'lwc';
 export default class List extends LightningElement {
     @track username = 'Loading...';
     @track isLoading = true;
+    @track flowSummaryList = [];
     @track flowList;
     locale = 'en';
     format = 'pdf';
@@ -10,23 +11,81 @@ export default class List extends LightningElement {
 
     errorStack = '';
 
-    connectedCallback() {
-        fetch('api/flows', {
+    async connectedCallback() {
+        try {
+            const rawResponse = await fetch('api/flows', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8'
+                }
+            });
+            const response = await rawResponse.json();
+            this.username = response.username;
+            this.instanceUrl = response.instanceUrl;
+            this.flowSummaryList = response.flowList;
+            if (response.flowList.length > 0) {
+                await this.fetchDetails(response.flowList.slice(0, 10).map((f) => f.fullName));
+            } else {
+                this.flowList = [];
+            }
+        } catch (error) {
+            console.log(error);
+        } finally {
+            this.isLoading = false;
+        }
+    }
+
+    async loadMore() {
+        if (this.isLoading) {
+            return;
+        }
+        try {
+            this.isLoading = true;
+            const flowNames = this.flowSummaryList
+                .filter((s) => !this.flowList.some((f) => f.fullName === s.fullName))
+                .slice(0, 10)
+                .map((f) => f.fullName);
+            console.log(flowNames);
+            await this.fetchDetails(flowNames);
+        } catch (error) {
+            console.log(error);
+        } finally {
+            this.isLoading = false;
+        }
+    }
+
+    async fetchDetails(flowNames) {
+        const rawDetailResponse = await fetch('api/flows/details', {
             method: 'POST',
+            body: JSON.stringify({
+                flowNames
+            }),
             headers: {
                 'Content-Type': 'application/json; charset=utf-8'
             }
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                this.flowList = data.flows;
-                this.username = data.username;
-                this.instanceUrl = data.instanceUrl;
-            })
-            .catch((error) => console.log(error))
-            .finally(() => {
-                this.isLoading = false;
-            });
+        });
+        const detailResponse = await rawDetailResponse.json();
+        const newDetails = detailResponse.flows.map((f) => {
+            const summary = this.flowSummaryList.find((s) => s.fullName === f.fullName);
+            return {
+                ...f,
+                formattedLastModifiedDate: new Date(summary.lastModifiedDate).toLocaleString(),
+                lastModifiedByName: summary.lastModifiedByName
+            };
+        });
+        console.log(newDetails);
+        if (this.hasFlowList) {
+            console.log('add');
+            Array.prototype.push.apply(this.flowList, newDetails);
+            console.log(this.flowList.length);
+        } else {
+            console.log('new');
+            this.flowList = newDetails;
+        }
+    }
+
+    get hasMore() {
+        return this.flowSummaryList.length > this.flowList.length;
     }
 
     get hasFlowList() {
@@ -38,6 +97,10 @@ export default class List extends LightningElement {
     }
 
     get flowCount() {
+        return this.flowSummaryList ? this.flowSummaryList.length : 0;
+    }
+
+    get loadedCount() {
         return this.flowList ? this.flowList.length : 0;
     }
 
