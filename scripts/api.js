@@ -7,8 +7,8 @@ const buildDocxContent = require('../node_modules/sfdx-flowdoc-plugin/lib/lib/do
 const docx = require('docx');
 const constant = require('./constant');
 
-router.use(express.json());
-router.use(express.urlencoded({ extended: true }));
+router.use(express.json({ limit: '10mb' }));
+router.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 router.post('/flows', (req, res, next) => {
     (async () => {
